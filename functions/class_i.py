@@ -51,6 +51,8 @@ def combine_class_i(dir): # Directory of the dataset
                 # Write to LAS file
                 outfile.write(os.path.join(complete_path, output_file_name))
                 print(os.path.join(complete_path, output_file_name))
+            else:
+                print("Skipped: ", file)
 
 if __name__ == "__main__":
 
