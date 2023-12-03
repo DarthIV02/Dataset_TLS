@@ -24,7 +24,7 @@ def create_bin(dir_input, dir_output): # Directory of the dataset
     j = 1
     for i, direct in enumerate(dirs):
         for file in tqdm(path[i]):
-            complete_path = os.path.join(direct, file) 
+            complete_path = os.path.join(dir_input, direct, file) 
             las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las')
             
             # Create velodyne file

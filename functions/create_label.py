@@ -2,11 +2,8 @@
 
 import os
 import laspy
-from operator import itemgetter
 import numpy as np
 from tqdm import tqdm
-import cv2 as cv
-import csv
 
 def create_label(dir_input, dir_output): # Directory of the dataset
     dirs = [f for f in os.listdir(dir_input)]
@@ -17,10 +14,10 @@ def create_label(dir_input, dir_output): # Directory of the dataset
     j = 1
     for i, direct in enumerate(dirs):
         for file in tqdm(path[i]):
-            complete_path = os.path.join(direct, file) 
+            complete_path = os.path.join(dir_input, direct, file) 
             las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las') # Read file
             labels = np.vstack((las.classification)).transpose().astype('uint32') # Stack classification
-            output = f"labels/{str(j).zfill(6)}.label"
+            output = os.path.join(dir_output,f"labels/{str(j).zfill(6)}.label")
             labels[0].tofile(output)
             j+=1
 
