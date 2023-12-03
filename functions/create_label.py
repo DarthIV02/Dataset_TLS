@@ -1,0 +1,29 @@
+# From las file create labels folder
+
+import os
+import laspy
+from operator import itemgetter
+import numpy as np
+from tqdm import tqdm
+import cv2 as cv
+import csv
+
+def create_label(dir_input, dir_output): # Directory of the dataset
+    dirs = [f for f in os.listdir(dir_input)]
+    path = [os.listdir(f'{dir_input}/{f}') for f in dirs]
+
+    # Write labels
+
+    j = 1
+    for i, direct in enumerate(dirs):
+        for file in tqdm(path[i]):
+            complete_path = os.path.join(direct, file) 
+            las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las') # Read file
+            labels = np.vstack((las.classification)).transpose().astype('uint32') # Stack classification
+            output = f"labels/{str(j).zfill(6)}.label"
+            labels[0].tofile(output)
+            j+=1
+
+if __name__ == "__main__":
+
+    create_label("dense_dataset", "dense_dataset_semantic/sequences/00")
