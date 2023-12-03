@@ -24,12 +24,15 @@ def create_bin(dir_input, dir_output): # Directory of the dataset
     j = 1
     for i, direct in enumerate(dirs):
         for file in tqdm(path[i]):
-            complete_path = os.path.join(dir_input, direct, file) 
-            las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las')
-            
-            # Create velodyne file
-            coords = np.vstack((las.x, las.y, las.z, las.intensity)).transpose()
-            write_points_to_bin(coords, os.path.join(dir_output, f"velodyne/{str(j).zfill(6)}.bin"))
+            complete_path = os.path.join(dir_input, direct, file)
+            try: 
+                las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las')
+                
+                # Create velodyne file
+                coords = np.vstack((las.x, las.y, las.z, las.intensity)).transpose()
+                write_points_to_bin(coords, os.path.join(dir_output, f"velodyne/{str(j).zfill(6)}.bin"))
+            except:
+                 print("Skipped: ", file)
             j+=1
 
 if __name__ == "__main__":
