@@ -16,7 +16,7 @@ def combine_class_i(dir): # Directory of the dataset
     for i, direct in enumerate(dirs):
         for file in path[i]:
             complete_path = os.path.join(dir, direct, file) 
-            if(not os.path.exists(complete_path+'/'+f'Class_i_{file}_comp.las')):
+            if(not os.path.exists(complete_path+'/'+f'Class_i_{file}.las')):
                 las_complete = laspy.read(complete_path + '/'+file+'.las')
                 print(complete_path + '/'+file+'.las')
                 coords = np.vstack((las_complete.x, las_complete.y, las_complete.z, las_complete.red, las_complete.green, las_complete.blue, las_complete.intensity)).transpose()
@@ -51,6 +51,8 @@ def combine_class_i(dir): # Directory of the dataset
                 # Write to LAS file
                 outfile.write(os.path.join(complete_path, output_file_name))
                 print(os.path.join(complete_path, output_file_name))
+            else:
+                print("Skipped: ", file)
 
 if __name__ == "__main__":
 
