@@ -21,8 +21,8 @@ def create_bin(dir_input, dir_output): # Directory of the dataset
     dirs = [f for f in os.listdir(dir_input)]
     path = [os.listdir(f'{dir_input}/{f}') for f in dirs]
 
-    j = 1
     for i, direct in enumerate(dirs):
+        j = 1
         for file in tqdm(path[i]):
             complete_path = os.path.join(dir_input, direct, file)
             try: 
@@ -30,11 +30,11 @@ def create_bin(dir_input, dir_output): # Directory of the dataset
                 
                 # Create velodyne file
                 coords = np.vstack((las.x, las.y, las.z, las.intensity)).transpose()
-                write_points_to_bin(coords, os.path.join(dir_output, f"velodyne/{str(j).zfill(6)}.bin"))
+                write_points_to_bin(coords, os.path.join(dir_output, f"0{i+1}/velodyne/{str(j).zfill(6)}.bin"))
             except:
                  print("Skipped: ", file)
             j+=1
 
 if __name__ == "__main__":
 
-    create_bin("dense_dataset", "dense_dataset_semantic/sequences/00")
+    create_bin("dense_dataset", "dense_dataset_semantic/sequences/")
