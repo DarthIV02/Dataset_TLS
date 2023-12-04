@@ -14,7 +14,7 @@ def create_label(dir_input, dir_output): # Directory of the dataset
     j = 1
     for i, direct in enumerate(dirs):
         for file in tqdm(path[i]):
-            complete_path = os.path.join(dir_input, direct, file) 
+            complete_path = os.path.join(dir_input, direct, file)
             try:
                 las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las') # Read file
                 labels = np.vstack((las.classification)).transpose().astype('uint32') # Stack classification
