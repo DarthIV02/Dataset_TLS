@@ -32,7 +32,9 @@ def combine_class_i(dir): # Directory of the dataset
 
                 data = []
                 for x, y, z, r, g, b, label in tqdm(coords_clas):
-                    matching_indices = np.where((coords[:, 0] == x) & (coords[:, 1] == y) & (coords[:, 2] == z))
+                    matching_indices = np.where((coords[:, 0] < float(x)+0.01) & (coords[:, 0] > float(x)-0.01)
+                    & (coords[:, 1] < float(y)+0.01) & (coords[:, 1] > float(y)-0.01)
+                    & (coords[:, 2] < float(z)+0.01) & (coords[:, 2] > float(z)-0.01))
                     try:
                         intensity = coords[matching_indices][0][6]
                         point = (x, y, z, int(r), int(g), int(b), intensity, label)
