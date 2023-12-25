@@ -36,10 +36,12 @@ def combine_class_i(dir): # Directory of the dataset
                     try:
                         matching_indices = matching_indices[0]
                         closest = np.argmin(np.abs(coords[matching_indices][:][2] - z))
+                        intensity = coords[matching_indices[closest]][3]
                     except:
-                        dist_2 = np.sum((coords[:,0:3] - (x,y,z))**2, axis=0)
+                        dist_2 = np.sum((coords[:,0:3] - (x,y,z))**2, axis=1)
                         closest = np.argmin(dist_2)
-                    intensity = coords[matching_indices[closest]][3]
+                        intensity = coords[closest][3]
+                    
                     #intensity = coords[matching_indices][3]
                     point = (x, y, z, int(r), int(g), int(b), intensity, label)
                     data.append(point)
