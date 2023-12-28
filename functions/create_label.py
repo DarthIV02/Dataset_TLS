@@ -7,6 +7,7 @@ from tqdm import tqdm
 
 def create_label(dir_input, dir_output): # Directory of the dataset
     dirs = [f for f in os.listdir(dir_input)]
+    dirs.sort()
     path = [os.listdir(f'{dir_input}/{f}') for f in dirs]
 
     # Write labels
@@ -15,13 +16,10 @@ def create_label(dir_input, dir_output): # Directory of the dataset
         j = 1
         for file in tqdm(path[i]):
             complete_path = os.path.join(dir_input, direct, file)
-            try:
-                las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las') # Read file
-                labels = np.vstack((las.classification)).transpose().astype('uint32') # Stack classification
-                output = os.path.join(dir_output,f"0{i+1}/labels/{str(j).zfill(6)}.label")
-                labels[0].tofile(output)
-            except:
-                print("Skipped: ", file)
+            las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las') # Read file
+            labels = np.vstack((las.classification)).transpose().astype('uint32') # Stack classification
+            output = os.path.join(dir_output,f"0{i}/labels/{str(j).zfill(6)}.label")
+            labels[0].tofile(output)
             j+=1
 
 if __name__ == "__main__":

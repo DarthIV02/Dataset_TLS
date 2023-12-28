@@ -19,20 +19,19 @@ def write_points_to_bin(points, bin_file):
 
 def create_bin(dir_input, dir_output): # Directory of the dataset
     dirs = [f for f in os.listdir(dir_input)]
+    dirs.sort()
+    print(dirs)
     path = [os.listdir(f'{dir_input}/{f}') for f in dirs]
 
     for i, direct in enumerate(dirs):
         j = 1
         for file in tqdm(path[i]):
             complete_path = os.path.join(dir_input, direct, file)
-            try: 
-                las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las')
+            las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las')
                 
-                # Create velodyne file
-                coords = np.vstack((las.x, las.y, las.z, las.intensity)).transpose()
-                write_points_to_bin(coords, os.path.join(dir_output, f"0{i+1}/velodyne/{str(j).zfill(6)}.bin"))
-            except:
-                 print("Skipped: ", file)
+            # Create velodyne file
+            coords = np.vstack((las.x, las.y, las.z, las.intensity)).transpose()
+            write_points_to_bin(coords, os.path.join(dir_output, f"0{i}/velodyne/{str(j).zfill(6)}.bin"))
             j+=1
 
 if __name__ == "__main__":
