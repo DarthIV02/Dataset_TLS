@@ -64,6 +64,28 @@ def get_std(dir): # Directory of the dataset
 
     print(std_x, std_y, std_z)
 
+def get_num_points_per_class(dir): # Directory of the dataset
+    dirs = [f for f in os.listdir(dir)]
+    path = [os.listdir(f'{dir}/{f}') for f in dirs]
+
+    points_per_class = {}
+
+    for i, direct in enumerate(dirs):
+        for file in path[i]:
+            complete_path = os.path.join(direct, file) 
+                
+            # Read labeled scan
+            las = laspy.read(complete_path+'/Class_i_'+file+'.las')
+            coords = np.vstack((las.x, las.y, las.z, las.red, las.green, las.blue, las.intensity, las.classification)).transpose().tolist()
+            for coord in coords:
+                if coord[7] not in points_per_class.keys():
+                    points_per_class[coord[7]] = 1
+                else:
+                    points_per_class[coord[7]] += 1
+            print(file)
+
+    print(points_per_class)
+        
 if __name__ == "__main__":
     
     print("Mean of dataset")
@@ -71,3 +93,6 @@ if __name__ == "__main__":
 
     print("Std of dataset")
     get_std("dense_dataset")
+
+    print("Points per class")
+    get_num_points_per_class("dense_dataset")
