@@ -105,14 +105,14 @@ def get_ratio_per_class(dir): # GEt percentage of each class of points
         
 if __name__ == "__main__":
     
-    print("Mean of dataset")
-    get_mean("dense_dataset")
+    #print("Mean of dataset")
+    #get_mean("dense_dataset")
 
-    print("Std of dataset")
-    get_std("dense_dataset")
+    #print("Std of dataset")
+    #get_std("dense_dataset")
 
-    print("Points per class")
-    get_num_points_per_class("dense_dataset")
+    #print("Points per class")
+    #get_num_points_per_class("dense_dataset")
 
     print("Ratio per class")
     get_num_points_per_class("dense_dataset")
