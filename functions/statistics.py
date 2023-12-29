@@ -4,6 +4,7 @@ import os
 import laspy
 from operator import itemgetter
 import numpy as np
+from tqdm import tqdm
 
 classes = {'unlabeled': 0, 'alive': 1, '1': 2, '10': 3, '100': 4, '1000': 5}
 
@@ -12,6 +13,7 @@ def Extract(lst, item):
 
 def get_mean(dir): # Directory of the dataset
     dirs = [f for f in os.listdir(dir)]
+    dirs.sort()
     path = [os.listdir(f'{dir}/{f}') for f in dirs]
 
     mean_x = 0
@@ -21,15 +23,14 @@ def get_mean(dir): # Directory of the dataset
     full_array = []
 
     for i, direct in enumerate(dirs):
-        for file in path[i]:
-            complete_path = os.path.join(direct, file) 
+        for file in tqdm(path[i]):
+            complete_path = os.path.join(dir, direct, file) 
                 
             # Read labeled scan
             las = laspy.read(complete_path+'/Class_i_'+file+'.las')
             coords = np.vstack((las.x, las.y, las.z, las.red, las.green, las.blue, las.intensity, las.classification)).transpose().tolist()
             for coord in coords:
                 full_array.append(coord)
-            print(file)
             
     mean_x = np.mean(full_array, axis=0)[0]
     mean_y = np.mean(full_array, axis=0)[1]
@@ -48,15 +49,14 @@ def get_std(dir): # Directory of the dataset
     full_array = []
 
     for i, direct in enumerate(dirs):
-        for file in path[i]:
-            complete_path = os.path.join(direct, file) 
+        for file in tqdm(path[i]):
+            complete_path = os.path.join(dir, direct, file) 
                 
             # Read labeled scan
             las = laspy.read(complete_path+'/Class_i_'+file+'.las')
             coords = np.vstack((las.x, las.y, las.z, las.red, las.green, las.blue, las.intensity, las.classification)).transpose().tolist()
             for coord in coords:
                 full_array.append(coord)
-            print(file)
 
     std_x = np.std(full_array, axis=0)[0]
     std_y = np.std(full_array, axis=0)[1]
@@ -71,8 +71,8 @@ def get_num_points_per_class(dir): # Directory of the dataset
     points_per_class = {}
 
     for i, direct in enumerate(dirs):
-        for file in path[i]:
-            complete_path = os.path.join(direct, file) 
+        for file in tqdm(path[i]):
+            complete_path = os.path.join(dir, direct, file) 
                 
             # Read labeled scan
             las = laspy.read(complete_path+'/Class_i_'+file+'.las')
@@ -82,7 +82,6 @@ def get_num_points_per_class(dir): # Directory of the dataset
                     points_per_class[coord[7]] = 1
                 else:
                     points_per_class[coord[7]] += 1
-            print(file)
 
     print(points_per_class)
         
