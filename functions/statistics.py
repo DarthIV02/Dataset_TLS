@@ -85,28 +85,27 @@ def get_num_points_per_class(dir): # Directory of the dataset
                 else:
                     points_per_class[coord[7]] += 1
 
-    print(points_per_class)
     return points_per_class
 
 def get_ratio_per_class(dir): # GEt percentage of each class of points
     
     total_dic = get_num_points_per_class(dir)
     total = 0
-    for key, val in total_dic:
+    for val in total_dic.values():
         total += val
-
+    
+    print("total =", total) 
     ratio = {}
     
-    for key, val in total_dic:
-        ratio[key] = val/total
+    for key in total_dic.keys():
+        ratio[key] = total_dic[key]/total
 
-    print(ratio)
     return ratio
         
 if __name__ == "__main__":
     
     #print("Mean of dataset")
-    #get_mean("dense_dataset")
+    #print(get_mean("dense_dataset"))
 
     #print("Std of dataset")
     #get_std("dense_dataset")
@@ -115,4 +114,4 @@ if __name__ == "__main__":
     #get_num_points_per_class("dense_dataset")
 
     print("Ratio per class")
-    get_num_points_per_class("dense_dataset")
+    print(get_ratio_per_class("dense_dataset"))
