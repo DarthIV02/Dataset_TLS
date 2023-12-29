@@ -37,6 +37,7 @@ def get_mean(dir): # Directory of the dataset
     mean_z = np.mean(full_array, axis=0)[2]
 
     print(mean_x, mean_y, mean_z)
+    return mean_x, mean_y, mean_z
 
 def get_std(dir): # Directory of the dataset
     dirs = [f for f in os.listdir(dir)]
@@ -63,6 +64,7 @@ def get_std(dir): # Directory of the dataset
     std_z = np.std(full_array, axis=0)[2]
 
     print(std_x, std_y, std_z)
+    return std_x, std_y, std_z
 
 def get_num_points_per_class(dir): # Directory of the dataset
     dirs = [f for f in os.listdir(dir)]
@@ -84,6 +86,22 @@ def get_num_points_per_class(dir): # Directory of the dataset
                     points_per_class[coord[7]] += 1
 
     print(points_per_class)
+    return points_per_class
+
+def get_ratio_per_class(dir): # GEt percentage of each class of points
+    
+    total_dic = get_num_points_per_class(dir)
+    total = 0
+    for key, val in total_dic:
+        total += val
+
+    ratio = {}
+    
+    for key, val in total_dic:
+        ratio[key] = val/total
+
+    print(ratio)
+    return ratio
         
 if __name__ == "__main__":
     
@@ -94,4 +112,7 @@ if __name__ == "__main__":
     get_std("dense_dataset")
 
     print("Points per class")
+    get_num_points_per_class("dense_dataset")
+
+    print("Ratio per class")
     get_num_points_per_class("dense_dataset")
