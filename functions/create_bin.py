@@ -15,7 +15,7 @@ def write_points_to_bin(points, bin_file):
         points = points.astype(np.float32).ravel()
 
         # Write the points to the binary file
-        points.tofile(bin_file)
+        np.save(bin_file, points)
 
 def create_bin(dir_input, dir_output): # Directory of the dataset
     dirs = [f for f in os.listdir(dir_input)]
