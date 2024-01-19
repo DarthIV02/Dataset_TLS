@@ -18,10 +18,11 @@ def create_label(dir_input, dir_output): # Directory of the dataset
             complete_path = os.path.join(dir_input, direct, file)
             las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las') # Read file
             labels = np.vstack((las.classification)).transpose().astype('uint32') # Stack classification
+            print(labels)
             output = os.path.join(dir_output,f"0{i}/labels/{str(j).zfill(6)}.label")
             np.save(output, labels[0])
             j+=1
 
 if __name__ == "__main__":
 
-    create_label("dense_dataset", "dense_dataset_semantic/sequences")
+    create_label("Dataset_TLS/dense_dataset", "Dataset_TLS/dense_dataset_numpy/sequences")

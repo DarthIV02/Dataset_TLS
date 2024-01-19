@@ -36,4 +36,4 @@ def create_bin(dir_input, dir_output): # Directory of the dataset
 
 if __name__ == "__main__":
 
-    create_bin("dense_dataset", "dense_dataset_semantic/sequences/")
+    create_bin("Dataset_TLS/dense_dataset", "Dataset_TLS/dense_dataset_numpy/sequences/")

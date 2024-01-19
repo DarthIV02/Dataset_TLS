@@ -110,8 +110,8 @@ if __name__ == "__main__":
     #print("Std of dataset")
     #get_std("dense_dataset")
 
-    #print("Points per class")
-    #get_num_points_per_class("dense_dataset")
+    print("Points per class")
+    print(get_num_points_per_class("Dataset_TLS/dense_dataset"))
 
-    print("Ratio per class")
-    print(get_ratio_per_class("dense_dataset"))
+    #print("Ratio per class")
+    #print(get_ratio_per_class("dense_dataset"))
