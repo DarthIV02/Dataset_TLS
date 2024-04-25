@@ -15,7 +15,11 @@ def write_points_to_bin(points, bin_file):
         points = points.astype(np.float32).ravel()
 
         # Write the points to the binary file
-        np.save(bin_file, points)
+        if not os.path.exists(bin_file[:-10]):
+            # Create the directory
+            os.makedirs(bin_file[:-10])
+        # np.save(bin_file, points)
+        points.tofile(bin_file)
 
 def create_bin(dir_input, dir_output): # Directory of the dataset
     dirs = [f for f in os.listdir(dir_input)]
@@ -27,13 +31,14 @@ def create_bin(dir_input, dir_output): # Directory of the dataset
         j = 1
         for file in tqdm(path[i]):
             complete_path = os.path.join(dir_input, direct, file)
-            las = laspy.read(complete_path+'/'+'Class_i_'+file+'.las')
+            las = laspy.read(complete_path+'/'+'Sub_2_'+file+'.las')
                 
             # Create velodyne file
             coords = np.vstack((las.x, las.y, las.z, las.intensity)).transpose()
+            coords = coords[(np.sqrt((coords[:,0])**2 + (coords[:,1])**2 + (coords[:,2])**2)) < 10]
             write_points_to_bin(coords, os.path.join(dir_output, f"0{i}/velodyne/{str(j).zfill(6)}.bin"))
             j+=1
 
 if __name__ == "__main__":
 
-    create_bin("Dataset_TLS/dense_dataset", "Dataset_TLS/dense_dataset_numpy/sequences/")
+    create_bin("Dataset_TLS/dense_dataset", "Dataset_TLS/dense_dataset_subsample_2/sequences/")
